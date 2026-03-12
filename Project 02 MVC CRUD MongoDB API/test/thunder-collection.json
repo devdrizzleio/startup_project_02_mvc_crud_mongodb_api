@@ -1,0 +1,110 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "MVC CRUD MongoDB API",
+  "collectionId": "mvc-crud-mongodb-v1",
+  "environmentName": "Development",
+  "requests": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{BASE_URL}}/health",
+        "headers": []
+      }
+    },
+    {
+      "name": "Get All Products",
+      "request": {
+        "method": "GET",
+        "url": "{{BASE_URL}}/api/products",
+        "headers": []
+      }
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "url": "{{BASE_URL}}/api/products",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"name\": \"Smartphone\",\n  \"price\": 699.99,\n  \"category\": \"electronics\",\n  \"description\": \"Latest model smartphone\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Product By ID",
+      "request": {
+        "method": "GET",
+        "url": "{{BASE_URL}}/api/products/{{productId}}",
+        "headers": []
+      },
+      "preRequest": {
+        "setVariable": "productId",
+        "fromResponse": {
+          "requestName": "Create Product",
+          "jsonPath": "data._id"
+        }
+      }
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "url": "{{BASE_URL}}/api/products/{{productId}}",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"price\": 649.99,\n  \"inStock\": true\n}"
+        }
+      }
+    },
+    {
+      "name": "Delete Product",
+      "request": {
+        "method": "DELETE",
+        "url": "{{BASE_URL}}/api/products/{{productId}}",
+        "headers": []
+      }
+    },
+    {
+      "name": "Validation Test - Missing Required Fields",
+      "request": {
+        "method": "POST",
+        "url": "{{BASE_URL}}/api/products",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"name\": \"Tablet\"\n}"
+        }
+      }
+    }
+  ],
+  "environments": [
+    {
+      "name": "Development",
+      "values": [
+        {
+          "name": "BASE_URL",
+          "value": "http://localhost:3000",
+          "isEnabled": true
+        }
+      ]
+    }
+  ]
+}

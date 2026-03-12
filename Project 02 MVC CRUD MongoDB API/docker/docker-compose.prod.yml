@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: mvc-crud-api:latest
+    container_name: mvc-crud-api-prod
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/productdb
+      - PORT=3000
+    depends_on:
+      - mongodb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+
+  mongodb:
+    image: mongo:6
+    container_name: mvc-crud-mongodb-prod
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=
+      - MONGO_INITDB_ROOT_PASSWORD=
+      - MONGO_INITDB_DATABASE=productdb
+    volumes:
+      - mongo_prod_data:/data/db
+
+volumes:
+  mongo_prod_data:
